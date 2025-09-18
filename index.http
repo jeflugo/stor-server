@@ -1,0 +1,93 @@
+# USERS
+
+
+@usersId = 6687006a56f38b4e8e315067
+@usersUrl = users
+
+###
+GET http://localhost:3030/{{usersUrl}} HTTP/1.1
+
+### 
+GET http://localhost:3030/{{usersUrl}}/{{usersId}} HTTP/1.1
+
+###
+POST http://localhost:3030/{{usersUrl}} HTTP/1.1
+Content-Type: application/json
+
+{
+  "name": "jef",
+  "email": "jef@gmaisda.com",
+  "password": "123456"
+}
+
+###
+PUT http://localhost:3030/{{usersUrl}}/{{usersId}} HTTP/1.1
+Content-Type: application/json
+
+{
+  "name": "Bombon changed",
+  "weight": 80,
+  "left": 0,
+  "make": 0
+}
+
+###
+DELETE http://localhost:3030/{{usersUrl}}/{{usersId}} HTTP/1.1
+
+
+# SAVED BREADS
+
+
+@savedBreadsId = 66875af841b533f95cf45f1b
+@savedBreadsUrl = savedSaltyBreads
+
+###
+GET http://localhost:3030/{{savedBreadsUrl}} HTTP/1.1
+
+###
+GET http://localhost:3030/{{savedBreadsUrl}}/{{savedBreadsId}} HTTP/1.1
+
+###
+POST http://localhost:3030/{{savedBreadsUrl}} HTTP/1.1
+Content-Type: application/json
+
+{
+  "date": "asdasd",
+  "breads": [
+    {
+      "name": "Maiz",
+      "weight": 80,
+      "left": 0,
+      "make": 0
+    }
+  ]
+}
+
+###
+PUT http://localhost:3030/{{savedBreadsUrl}}/{{savedBreadsId}} HTTP/1.1
+Content-Type: application/json
+
+{
+  "date": "zxcv",
+  "breads": [
+    {
+      "name": "Bonbom",
+      "weight": 80,
+      "left": 0,
+      "make": 0
+    }
+  ]
+}
+
+###
+DELETE http://localhost:3030/{{savedBreadsUrl}}/{{savedBreadsId}} HTTP/1.1
+
+
+# RESETS
+
+
+# @savedBreadsId = 66875af841b533f95cf45f1b
+@resetsUrl = sweetResets
+
+###
+GET http://localhost:3030/{{resetsUrl}} HTTP/1.1
