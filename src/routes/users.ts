@@ -1,19 +1,26 @@
 import { Router } from 'express'
 import {
-	// deleteBread,
-	// resetBreads,
-	// getBread,
-	getUsers,
-	postUser,
-	// updateBread,
-	// reorderBreads,
+	registerUser,
+	loginUser,
+	// getCurrentUser,
+	// updateUser,
+	// deleteUser,
+	// getAllUsers
 } from '../controllers/users'
+// import { authenticate, authorize } from '../middleware/auth';
 
 const router = Router()
 
-router.route('/').get(getUsers).post(postUser)
-// .put(resetBreads)
-// router.route('/:id').get(getBread).put(updateBread).delete(deleteBread)
-// router.patch('/reorder-list', reorderBreads)
+// Public routes
+router.post('/register', registerUser)
+router.post('/login', loginUser)
+
+// Protected routes
+// router.get('/me', authenticate, getCurrentUser);
+// router.put('/me', authenticate, updateUser);
+// router.delete('/me', authenticate, deleteUser);
+
+// // Admin only routes
+// router.get('/all', authenticate, authorize('admin'), getAllUsers);
 
 export { router }

@@ -1,94 +1,42 @@
 import User from '../models/users'
-import { TUser } from '../types'
+import { TUserInput, TUserLogin } from '../types'
+import jwt from 'jsonwebtoken'
 
-const getUsers = async () => {
-	const newUsers = await User.find()
-	if (newUsers.length === 0) return null
-	const newUsersModified = newUsers.map(({ id, name }) => {
-		return {
-			id,
-			name,
-		}
-	})
-	return newUsersModified
-}
+const generateToken = (userId: string): string =>
+	jwt.sign({ userId }, process.env.JWT_SECRET!, { expiresIn: '7d' })
 
-// const resetBreads = async () => {
-// 	const newBreads = await SaltyBread.find()
-// 	if (newBreads.length === 0) return null
-
-// 	const newBreadsModified = await Promise.all(
-// 		newBreads.map(async bread => {
-// 			const updates = { left: 0, make: 0 }
-// 			const updatedBread = await SaltyBread.findByIdAndUpdate(
-// 				bread.id,
-// 				updates,
-// 				{
-// 					new: true,
-// 				}
-// 			)
-// 			const { id, name, weight, left, make, position } = updatedBread!
-// 			return {
-// 				id,
-// 				name,
-// 				weight,
-// 				left,
-// 				make,
-// 				position,
-// 			}
-// 		})
-// 	)
-// 	return newBreadsModified
-// }
-
-// const reorderBreads = async (newOrder: TBreadOrder[]) => {
-// 	await Promise.all(
-// 		newOrder.map(async ({ id, position }) => {
-// 			await SaltyBread.findByIdAndUpdate(id, { $set: { position } })
-// 		})
-// 	)
-// 	return 'Order Updated'
-// }
-
-const postUser = async (user: TUser) => {
+const registerUser = async (user: TUserInput) => {
 	const newUser = await User.create(user)
-	const { id, name, email, password } = newUser
+	const token = generateToken(newUser._id.toString())
 	return {
-		id,
-		name,
-		email,
-		password,
+		message: 'User registered successfully',
+		newUser,
+		token,
 	}
 }
 
-// const getBread = async (id: string) => await SaltyBread.findById(id)
+const loginUser = async (userData: TUserLogin) => {
+	const { email, password } = userData
 
-// const updateBread = async (id: string, updates: Partial<TBread>) => {
-// 	const updatedBread = await SaltyBread.findByIdAndUpdate(id, updates, {
-// 		new: true,
-// 	})
-// 	const { _id, name, weight, left, make, position } = updatedBread!
-// 	return {
-// 		id: _id,
-// 		name,
-// 		weight,
-// 		left,
-// 		make,
-// 		position,
-// 	}
-// }
+	// Find user and include password
+	const user = await User.findOne({ email }).select('+password')
+	if (!user) return { message: 'Invalid credentials' }
 
-// const deleteBread = async (id: string) => {
-// 	const deletedBread = await SaltyBread.findByIdAndDelete(id)
-// 	return { id: deletedBread?.id }
-// }
+	// Check password
+	const isPasswordValid = await user.comparePassword(password)
+	if (!isPasswordValid) return { message: 'Invalid credentials' }
+
+	// Generate token
+	const token = generateToken(user._id.toString())
+
+	return {
+		message: 'Login successful',
+		user,
+		token,
+	}
+}
 
 export default {
-	getUsers,
-	postUser,
-	// resetBreads,
-	// reorderBreads,
-	// getBread,
-	// updateBread,
-	// deleteBread,
+	registerUser,
+	loginUser,
 }

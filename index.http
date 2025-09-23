@@ -10,13 +10,22 @@ GET http://localhost:3030/{{usersUrl}} HTTP/1.1
 ### 
 GET http://localhost:3030/{{usersUrl}}/{{usersId}} HTTP/1.1
 
-###
-POST http://localhost:3030/{{usersUrl}} HTTP/1.1
+### register
+POST http://localhost:3030/{{usersUrl}}/register HTTP/1.1
 Content-Type: application/json
 
 {
   "name": "jef",
-  "email": "jef@gmaisda.com",
+  "email": "vbncvyuitya<das>@gmaisda.com",
+  "password": "123456"
+}
+
+### login
+POST http://localhost:3030/{{usersUrl}}/login HTTP/1.1
+Content-Type: application/json
+
+{
+  "email": "vbncvyuitya<das>@gmaisda.com",
   "password": "123456"
 }
 
