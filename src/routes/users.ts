@@ -2,12 +2,12 @@ import { Router } from 'express'
 import {
 	registerUser,
 	loginUser,
-	// getCurrentUser,
+	getCurrentUser,
 	// updateUser,
 	// deleteUser,
 	// getAllUsers
 } from '../controllers/users'
-// import { authenticate, authorize } from '../middleware/auth';
+import { authenticate, authorize } from '../middleware/auth'
 
 const router = Router()
 
@@ -16,7 +16,7 @@ router.post('/register', registerUser)
 router.post('/login', loginUser)
 
 // Protected routes
-// router.get('/me', authenticate, getCurrentUser);
+router.get('/me', authenticate, getCurrentUser)
 // router.put('/me', authenticate, updateUser);
 // router.delete('/me', authenticate, deleteUser);
 

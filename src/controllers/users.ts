@@ -1,7 +1,7 @@
 import { Request, Response } from 'express'
 import service from '../services/users'
 import { tryCatchWrapper } from '../utils/tryCatchWrapper'
-import { TUserInput, TUserLogin } from '../types'
+import { TUser, TUserInput, TUserLogin } from '../types'
 
 const registerUser = tryCatchWrapper(
 	(req: Request<{}, {}, TUserInput>, res: Response) =>
@@ -15,4 +15,9 @@ const loginUser = tryCatchWrapper(
 	'LOGIN_USER_ERROR'
 )
 
-export { registerUser, loginUser }
+const getCurrentUser = tryCatchWrapper(
+	(req: Request, res: Response) => service.getCurrentUser(req),
+	'GET_CURRENT_USER_ERROR'
+)
+
+export { registerUser, loginUser, getCurrentUser }

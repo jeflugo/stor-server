@@ -9,7 +9,7 @@ export type TUserDocument = TUser &
 
 const userSchema = new mongoose.Schema<TUserDocument>(
 	{
-		name: {
+		username: {
 			type: String,
 			required: true,
 		},

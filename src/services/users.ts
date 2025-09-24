@@ -36,7 +36,21 @@ const loginUser = async (userData: TUserLogin) => {
 	}
 }
 
+const getCurrentUser = async (req: any) => {
+	const userId = req.user?.userId
+
+	if (!userId) {
+		throw new Error('User not authenticated')
+	}
+	const user = await User.findById(userId).select('-password')
+	if (!user) {
+		throw new Error('User not found')
+	}
+	return user
+}
+
 export default {
 	registerUser,
 	loginUser,
+	getCurrentUser,
 }
