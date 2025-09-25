@@ -5,12 +5,12 @@ import jwt from 'jsonwebtoken'
 const generateToken = (userId: string): string =>
 	jwt.sign({ userId }, process.env.JWT_SECRET!, { expiresIn: '7d' })
 
-const registerUser = async (user: TUserInput) => {
-	const newUser = await User.create(user)
-	const token = generateToken(newUser._id.toString())
+const registerUser = async (userData: TUserInput) => {
+	const user = await User.create(userData)
+	const token = generateToken(user._id.toString())
 	return {
 		message: 'User registered successfully',
-		newUser,
+		user,
 		token,
 	}
 }
