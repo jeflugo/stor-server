@@ -1,5 +1,5 @@
 import mongoose from 'mongoose'
-import { TUser, TActivity } from '../types/users'
+import { TUser } from '../types/users'
 import bcrypt from 'bcryptjs'
 
 export type TUserDocument = TUser &
@@ -35,14 +35,9 @@ const userSchema = new mongoose.Schema<TUserDocument>(
 		cover: { type: String, default: '' },
 		followers: { type: [String], default: [] },
 		following: { type: [String], default: [] },
-		products: { type: [String], default: [] },
-		posts: { type: [String], default: [] },
 		favs: { type: [String], default: [] },
 		saved: { type: [String], default: [] },
 		payOptions: { type: [String], default: [] },
-		blocked: { type: [String], default: [] },
-		reviews: { type: [String], default: [] },
-		activity: { type: Array, default: [] },
 	},
 	{
 		timestamps: true,

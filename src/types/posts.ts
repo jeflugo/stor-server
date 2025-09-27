@@ -1,15 +1,15 @@
+import { ObjectId } from 'mongoose'
+
 export type TComment = {
-	_id?: string
-	user: string
+	author: ObjectId
 	text: string
 }
 
 export type TPost = {
-	_id?: string
-	description: string
-	images?: string[]
-	videos?: string[]
-	createdBy: string
+	author: ObjectId
+	title: string
+	content: string
+	media?: string[]
 	likes?: string[]
 	comments?: TComment[]
 }

@@ -54,20 +54,21 @@ Content-Type: application/json
 DELETE http://localhost:3030/{{usersUrl}}/{{usersId}} HTTP/1.1
 
 
-# SAVED BREADS
 
 
-@savedBreadsId = 66875af841b533f95cf45f1b
-@savedBreadsUrl = savedSaltyBreads
+# PSOTS
 
-###
-GET http://localhost:3030/{{savedBreadsUrl}} HTTP/1.1
+@postsId = 66875af841b533f95cf45f1b
+@postsUrl = posts
 
 ###
-GET http://localhost:3030/{{savedBreadsUrl}}/{{savedBreadsId}} HTTP/1.1
+GET http://localhost:3030/{{postsUrl}} HTTP/1.1
 
 ###
-POST http://localhost:3030/{{savedBreadsUrl}} HTTP/1.1
+GET http://localhost:3030/{{postsUrl}}/{{postsId}} HTTP/1.1
+
+###
+POST http://localhost:3030/{{postsUrl}} HTTP/1.1
 Content-Type: application/json
 
 {
@@ -83,7 +84,7 @@ Content-Type: application/json
 }
 
 ###
-PUT http://localhost:3030/{{savedBreadsUrl}}/{{savedBreadsId}} HTTP/1.1
+PUT http://localhost:3030/{{postsUrl}}/{{postsId}} HTTP/1.1
 Content-Type: application/json
 
 {
@@ -99,14 +100,4 @@ Content-Type: application/json
 }
 
 ###
-DELETE http://localhost:3030/{{savedBreadsUrl}}/{{savedBreadsId}} HTTP/1.1
-
-
-# RESETS
-
-
-# @savedBreadsId = 66875af841b533f95cf45f1b
-@resetsUrl = sweetResets
-
-###
-GET http://localhost:3030/{{resetsUrl}} HTTP/1.1
+DELETE http://localhost:3030/{{postsUrl}}/{{postsId}} HTTP/1.1

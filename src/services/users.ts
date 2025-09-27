@@ -52,7 +52,7 @@ const getCurrentUser = async (req: any) => {
 
 const getPublicUser = async (req: Request) => {
 	const username = req.params.username
-	const user = await User.findOne({ username }).select('-password -email -role')
+	const user = await User.findOne({ username }).select('-password -email')
 	if (!user) {
 		throw new Error('User not found')
 	}

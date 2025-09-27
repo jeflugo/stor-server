@@ -1,5 +1,5 @@
 export type TProduct = {
-	_id?: string
+	author: string
 	title: string
 	description: string
 	price: number
@@ -7,5 +7,4 @@ export type TProduct = {
 	payOptions: string[]
 	reviews?: string[]
 	ratings?: number[]
-	creaetedBy: string
 }
