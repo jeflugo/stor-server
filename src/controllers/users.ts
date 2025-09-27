@@ -20,4 +20,9 @@ const getCurrentUser = tryCatchWrapper(
 	'GET_CURRENT_USER_ERROR'
 )
 
-export { registerUser, loginUser, getCurrentUser }
+const getPublicUser = tryCatchWrapper(
+	(req: Request, res: Response) => service.getPublicUser(req),
+	'GET_PUBLIC_USER_ERROR'
+)
+
+export { registerUser, loginUser, getCurrentUser, getPublicUser }

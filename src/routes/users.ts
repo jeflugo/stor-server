@@ -3,6 +3,7 @@ import {
 	registerUser,
 	loginUser,
 	getCurrentUser,
+	getPublicUser,
 	// updateUser,
 	// deleteUser,
 	// getAllUsers
@@ -17,10 +18,8 @@ router.post('/login', loginUser)
 
 // Protected routes
 router.get('/me', authenticate, getCurrentUser)
+router.get('/people/:username', getPublicUser)
 // router.put('/me', authenticate, updateUser);
 // router.delete('/me', authenticate, deleteUser);
-
-// // Admin only routes
-// router.get('/all', authenticate, authorize('admin'), getAllUsers);
 
 export { router }
