@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from 'express'
 import jwt from 'jsonwebtoken'
-import { TAuthRequest } from '../types'
+import { TAuthRequest } from '../types/users'
 import User from '../models/users'
 
 export const authenticate = async (
@@ -29,22 +29,10 @@ export const authenticate = async (
 		req.user = {
 			userId: user._id.toString(),
 			email: user.email,
-			role: user.role,
 		}
 
 		next()
 	} catch (error) {
 		res.status(401).json({ message: 'Token is not valid.' })
-	}
-}
-
-export const authorize = (...roles: string[]) => {
-	return (req: TAuthRequest, res: Response, next: NextFunction) => {
-		if (!req.user || !roles.includes(req.user.role)) {
-			return res.status(403).json({
-				message: 'Access denied. Insufficient permissions.',
-			})
-		}
-		next()
 	}
 }

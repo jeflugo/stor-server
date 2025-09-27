@@ -1,5 +1,5 @@
 import mongoose from 'mongoose'
-import { TUser } from '../types'
+import { TUser, TActivity } from '../types/users'
 import bcrypt from 'bcryptjs'
 
 export type TUserDocument = TUser &
@@ -9,6 +9,14 @@ export type TUserDocument = TUser &
 
 const userSchema = new mongoose.Schema<TUserDocument>(
 	{
+		name: {
+			type: String,
+			required: true,
+		},
+		lastname: {
+			type: String,
+			required: true,
+		},
 		username: {
 			type: String,
 			required: true,
@@ -21,11 +29,20 @@ const userSchema = new mongoose.Schema<TUserDocument>(
 			type: String,
 			required: true,
 		},
-		role: {
-			type: String,
-			enum: ['user', 'admin'],
-			default: 'user',
-		},
+		location: { type: String, default: '' },
+		bio: { type: String, default: '' },
+		avatar: { type: String, default: '' },
+		cover: { type: String, default: '' },
+		followers: { type: [String], default: [] },
+		following: { type: [String], default: [] },
+		products: { type: [String], default: [] },
+		posts: { type: [String], default: [] },
+		favs: { type: [String], default: [] },
+		saved: { type: [String], default: [] },
+		payOptions: { type: [String], default: [] },
+		blocked: { type: [String], default: [] },
+		reviews: { type: [String], default: [] },
+		activity: { type: Array, default: [] },
 	},
 	{
 		timestamps: true,

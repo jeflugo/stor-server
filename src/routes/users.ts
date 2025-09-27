@@ -8,7 +8,7 @@ import {
 	// deleteUser,
 	// getAllUsers
 } from '../controllers/users'
-import { authenticate, authorize } from '../middleware/auth'
+import { authenticate } from '../middleware/auth'
 
 const router = Router()
 
@@ -20,6 +20,8 @@ router.post('/login', loginUser)
 router.get('/me', authenticate, getCurrentUser)
 router.get('/people/:username', getPublicUser)
 // router.put('/me', authenticate, updateUser);
+
+//! DANGER ZONE
 // router.delete('/me', authenticate, deleteUser);
 
 export { router }

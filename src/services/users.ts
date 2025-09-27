@@ -1,6 +1,6 @@
 import { Request, Response } from 'express'
 import User from '../models/users'
-import { TUserInput, TUserLogin } from '../types'
+import { TUserInput, TUserLogin } from '../types/users'
 import jwt from 'jsonwebtoken'
 
 const generateToken = (userId: string): string =>
@@ -49,6 +49,7 @@ const getCurrentUser = async (req: any) => {
 	}
 	return user
 }
+
 const getPublicUser = async (req: Request) => {
 	const username = req.params.username
 	const user = await User.findOne({ username }).select('-password -email -role')
