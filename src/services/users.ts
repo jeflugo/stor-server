@@ -1,12 +1,12 @@
 import { Request, Response } from 'express'
 import User from '../models/users'
-import { TUserInput, TUserLogin } from '../types/users'
+import { TUser } from '../types/users'
 import jwt from 'jsonwebtoken'
 
 const generateToken = (userId: string): string =>
 	jwt.sign({ userId }, process.env.JWT_SECRET!, { expiresIn: '7d' })
 
-const registerUser = async (userData: TUserInput) => {
+const registerUser = async (userData: TUser) => {
 	const user = await User.create(userData)
 	const token = generateToken(user._id.toString())
 	return {
@@ -16,7 +16,7 @@ const registerUser = async (userData: TUserInput) => {
 	}
 }
 
-const loginUser = async (userData: TUserLogin) => {
+const loginUser = async (userData: TUser) => {
 	const { email, password } = userData
 
 	// Find user and include password

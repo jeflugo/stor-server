@@ -1,14 +1,8 @@
 # USERS
 
 
-@usersId = 6687006a56f38b4e8e315067
+@usersId = 68d8077534ff7f42505b20e7
 @usersUrl = users
-
-###
-GET http://localhost:3030/{{usersUrl}} HTTP/1.1
-
-### 
-GET http://localhost:3030/{{usersUrl}}/{{usersId}} HTTP/1.1
 
 ### register
 POST http://localhost:3030/{{usersUrl}}/register HTTP/1.1
@@ -16,6 +10,8 @@ Content-Type: application/json
 
 {
   "name": "jef",
+  "lastname": "lugo",
+  "username": "jef",
   "email": "vbncvyuitya<das>@gmaisda.com",
   "password": "123456"
 }
@@ -25,11 +21,25 @@ POST http://localhost:3030/{{usersUrl}}/login HTTP/1.1
 Content-Type: application/json
 
 {
+  "email": "jefito@gmail.com",
+  "password": "123456"
+}
+
+### get current user info
+GET http://localhost:3030/{{usersUrl}}/me HTTP/1.1
+Content-Type: application/json
+Authorization: "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OGQzMzI4Y2I1NmMyYmRiMzEzMTkxZjQiLCJpYXQiOjE3NTg5ODkzMjcsImV4cCI6MTc1OTU5NDEyN30.FUnHlRBWdLQU5X3KdhmSrjYQQGfIGsNC9KivmkLeftA"
+
+### get public user info
+GET http://localhost:3030/{{usersUrl}}/people/{{usersId}} HTTP/1.1
+Content-Type: application/json
+
+{
   "email": "vbncvyuitya<das>@gmaisda.com",
   "password": "123456"
 }
 
-###
+### update user info
 PUT http://localhost:3030/{{usersUrl}}/{{usersId}} HTTP/1.1
 Content-Type: application/json
 
@@ -40,7 +50,7 @@ Content-Type: application/json
   "make": 0
 }
 
-###
+### delete user
 DELETE http://localhost:3030/{{usersUrl}}/{{usersId}} HTTP/1.1
 
 

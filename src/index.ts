@@ -10,7 +10,25 @@ db().then(() => console.log('Connected to db'))
 const app = express()
 const port = process.env.PORT || 3000
 
-app.use(morgan('tiny'))
+app.use(
+	morgan((tokens, req, res) => {
+		const venezuelaTime = new Date().toLocaleTimeString('en-US', {
+			timeZone: 'America/Caracas',
+			hour: '2-digit',
+			minute: '2-digit',
+			hour12: false,
+		})
+		return [
+			venezuelaTime,
+			tokens.method(req, res),
+			tokens.url(req, res),
+			tokens.status(req, res),
+			'-',
+			tokens['response-time'](req, res),
+			'ms',
+		].join(' ')
+	})
+)
 
 app.use(
 	cors({
