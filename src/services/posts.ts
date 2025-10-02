@@ -15,27 +15,6 @@ const getOwnPosts = async (req: any) => {
 	return userPosts
 }
 
-// const postPost = async (req: any) => {
-// 	const author = req.user?.userId
-// 	const { title, content, image } = req.body
-
-// 	console.log(req.body)
-// 	if (!author) {
-// 		throw new Error('User not authenticated')
-// 	}
-
-// 	const post = await Post.create({
-// 		author,
-// 		title,
-// 		content,
-// 		media: [image.toString()],
-// 	})
-
-// 	console.log(post)
-
-// 	return post
-// }
-
 const postPost = async (req: any) => {
 	const { title, content } = req.body
 	const author = req.user!.userId

@@ -9,6 +9,7 @@ db().then(() => console.log('Connected to db'))
 
 const app = express()
 const port = process.env.PORT || 3000
+const CLIENT_URL = process.env.CLIENT_URL || 'http://localhost:5173'
 
 app.use(
 	morgan((tokens, req, res) => {
@@ -32,7 +33,7 @@ app.use(
 
 app.use(
 	cors({
-		origin: process.env.CLIENT_URL,
+		origin: CLIENT_URL,
 	})
 )
 
