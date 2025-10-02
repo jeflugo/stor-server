@@ -6,9 +6,14 @@ const getOwnPosts = tryCatchWrapper(
 	(req: Request, res: Response) => service.getOwnPosts(req),
 	'REGISTER_USER_ERROR'
 )
+const postPost = tryCatchWrapper(
+	(req: Request, res: Response) => service.postPost(req),
+	'REGISTER_USER_ERROR'
+)
+
 const getPublicPosts = tryCatchWrapper(
 	(req: Request, res: Response) => service.getPublicPosts(req),
 	'REGISTER_USER_ERROR'
 )
 
-export { getOwnPosts, getPublicPosts }
+export { getOwnPosts, getPublicPosts, postPost }
