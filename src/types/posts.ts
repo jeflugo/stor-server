@@ -5,11 +5,28 @@ export type TComment = {
 	text: string
 }
 
+export type TMedia = {
+	url: string
+	key: string
+	type: 'image' | 'video'
+	size: number
+	thumbnail?: string // For videos
+	duration?: number // For videos
+}
+
 export type TPost = {
 	author: ObjectId
 	title: string
 	content: string
-	media?: string[]
+	media?: TMedia[]
 	likes?: string[]
 	comments?: TComment[]
+}
+
+export type TUploadResult = {
+	url: string
+	key: string
+	size: number
+	thumbnail?: string
+	duration?: number
 }

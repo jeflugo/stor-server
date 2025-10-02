@@ -3,7 +3,6 @@ import { Request } from 'express'
 export type TUser = {
 	_id: string
 	name: string
-	lastname: string
 	username: string
 	email: string
 	password: string
