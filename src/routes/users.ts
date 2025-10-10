@@ -4,9 +4,6 @@ import {
 	loginUser,
 	getCurrentUser,
 	getPublicUser,
-	// updateUser,
-	// deleteUser,
-	// getAllUsers
 } from '../controllers/users'
 import { authenticate } from '../middleware/auth'
 
@@ -19,9 +16,5 @@ router.post('/login', loginUser)
 // Protected routes
 router.get('/me', authenticate, getCurrentUser)
 router.get('/people/:username', getPublicUser)
-// router.put('/me', authenticate, updateUser);
-
-//! DANGER ZONE
-// router.delete('/me', authenticate, deleteUser);
 
 export { router }

@@ -1,16 +1,26 @@
-import { Request, Response } from 'express'
-import User from '../models/users'
 import { TUser } from '../types/users'
 import jwt from 'jsonwebtoken'
+import { Request } from 'express'
+import User from '../models/users'
 
 const generateToken = (userId: string): string =>
 	jwt.sign({ userId }, process.env.JWT_SECRET!, { expiresIn: '7d' })
 
 const registerUser = async (userData: TUser) => {
+	const { email, username } = userData
+
+	// Check if username or email already exist
+	const usernameExist = await User.findOne({ username })
+	const emailExist = await User.findOne({ email })
+
+	if (usernameExist || emailExist)
+		return { success: false, usernameExist, emailExist }
+
 	const user = await User.create(userData)
 	const token = generateToken(user._id.toString())
+
 	return {
-		message: 'User registered successfully',
+		success: true,
 		user,
 		token,
 	}
@@ -21,17 +31,17 @@ const loginUser = async (userData: TUser) => {
 
 	// Find user and include password
 	const user = await User.findOne({ email }).select('+password')
-	if (!user) return { message: 'Invalid credentials' }
+	if (!user) return { success: false }
 
 	// Check password
 	const isPasswordValid = await user.comparePassword(password)
-	if (!isPasswordValid) return { message: 'Invalid credentials' }
+	if (!isPasswordValid) return { success: false }
 
 	// Generate token
 	const token = generateToken(user._id.toString())
 
 	return {
-		message: 'Login successful',
+		success: true,
 		user,
 		token,
 	}
@@ -39,7 +49,6 @@ const loginUser = async (userData: TUser) => {
 
 const getCurrentUser = async (req: any) => {
 	const userId = req.user?.userId
-
 	if (!userId) {
 		throw new Error('User not authenticated')
 	}
