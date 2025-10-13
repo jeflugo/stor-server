@@ -2,18 +2,23 @@ import { Request, Response } from 'express'
 import { tryCatchWrapper } from '../utils/tryCatchWrapper'
 import service from '../services/posts'
 
+const getPosts = tryCatchWrapper(
+	(req: Request, res: Response) => service.getPosts(),
+	'GET_POSTS_ERROR'
+)
+
 const getOwnPosts = tryCatchWrapper(
 	(req: Request, res: Response) => service.getOwnPosts(req),
-	'REGISTER_USER_ERROR'
+	'GET_OWN_POSTS_ERROR'
 )
 const postPost = tryCatchWrapper(
 	(req: Request, res: Response) => service.postPost(req),
-	'REGISTER_USER_ERROR'
+	'POST_POST_ERROR'
 )
 
 const getPublicPosts = tryCatchWrapper(
 	(req: Request, res: Response) => service.getPublicPosts(req),
-	'REGISTER_USER_ERROR'
+	'GET_PUBLIC_POSTS_ERROR'
 )
 
-export { getOwnPosts, getPublicPosts, postPost }
+export { getPosts, getOwnPosts, getPublicPosts, postPost }

@@ -1,6 +1,12 @@
 import mongoose from 'mongoose'
 import { TPost } from '../types/posts'
-import type { TComment } from '../types/posts'
+import type { TAuthor, TComment } from '../types/posts'
+
+const AuthorSchema = new mongoose.Schema<TAuthor>({
+	name: { type: String, required: true },
+	username: { type: String, required: true },
+	avatar: { type: String },
+})
 
 const MediaSchema = new mongoose.Schema({
 	url: { type: String, required: true },
@@ -13,7 +19,7 @@ const MediaSchema = new mongoose.Schema({
 
 const PostSchema = new mongoose.Schema<TPost>(
 	{
-		author: { type: mongoose.Types.ObjectId, ref: 'User', required: true },
+		author: { type: AuthorSchema, ref: 'User', required: true },
 		title: { type: String, required: true },
 		content: { type: String, required: true },
 		media: { type: [MediaSchema], default: [] },
