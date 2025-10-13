@@ -3,7 +3,7 @@ import { TUploadResult } from '../types/posts.js'
 
 import AWS from 'aws-sdk'
 
-const s3 = new AWS.S3({
+export const s3 = new AWS.S3({
 	endpoint: process.env.B2_ENDPOINT,
 	credentials: {
 		accessKeyId: process.env.B2_APPLICATION_KEY_ID as string,
@@ -103,5 +103,15 @@ export class B2Service {
 			key: result.Key,
 			size: thumbnailBuffer.length,
 		}
+	}
+
+	static async getSignedUrl(fileName: string): Promise<string> {
+		const params = {
+			Bucket: process.env.B2_BUCKET_NAME!,
+			Key: fileName,
+			Expires: 3600, // URL expires in 1 hour
+		}
+
+		return s3.getSignedUrlPromise('getObject', params)
 	}
 }
