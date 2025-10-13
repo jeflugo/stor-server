@@ -19,6 +19,7 @@ export type TUser = {
 
 export type TAuthRequest = Request & {
 	user?: {
+		username: string
 		userId: string
 		email: string
 	}
