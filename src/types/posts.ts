@@ -1,8 +1,10 @@
 import { ObjectId } from 'mongoose'
 
-export type TComment = {
-	author: ObjectId
-	text: string
+export type TAuthor = {
+	_id: ObjectId
+	name: string
+	username: string
+	avatar?: string
 }
 
 export type TMedia = {
@@ -14,11 +16,16 @@ export type TMedia = {
 	duration?: number // For videos
 }
 
-export type TPost = {
+export type TComment = {
 	author: ObjectId
+	text: string
+}
+
+export type TPost = {
+	author: TAuthor
 	title: string
 	content: string
-	media?: TMedia[]
+	media: TMedia[]
 	likes?: string[]
 	comments?: TComment[]
 }
