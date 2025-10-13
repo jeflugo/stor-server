@@ -27,7 +27,8 @@ export const authenticate = async (
 		}
 
 		req.user = {
-			userId: user._id.toString(),
+			username: user.username,
+			userId: user._id,
 			email: user.email,
 		}
 
