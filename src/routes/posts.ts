@@ -3,6 +3,7 @@ import { authenticate } from '../middleware/auth'
 import {
 	editPost,
 	getOwnPosts,
+	getPostComments,
 	getPosts,
 	getPublicPosts,
 	interactWithPost,
@@ -18,5 +19,6 @@ router.get('/me', authenticate, getOwnPosts)
 router.get('/people/:username', getPublicPosts)
 router.patch('/:id', authenticate, editPost)
 router.patch('/actions/:id', interactWithPost)
+router.get('/comments/:id', getPostComments)
 
 export { router }

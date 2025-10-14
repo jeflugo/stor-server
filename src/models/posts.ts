@@ -1,12 +1,6 @@
 import mongoose from 'mongoose'
 import { TPost } from '../types/posts'
-import type { TAuthor, TComment } from '../types/posts'
-
-const AuthorSchema = new mongoose.Schema<TAuthor>({
-	name: { type: String, required: true },
-	username: { type: String, required: true },
-	avatar: { type: String },
-})
+import type { TComment } from '../types/posts'
 
 const MediaSchema = new mongoose.Schema({
 	url: { type: String, required: true },
@@ -17,19 +11,38 @@ const MediaSchema = new mongoose.Schema({
 	duration: { type: Number },
 })
 
-const CommentSchema = new mongoose.Schema<TComment>({
-	author: { type: AuthorSchema, ref: 'User', required: true },
-	content: { type: String, required: true },
-})
-
 const PostSchema = new mongoose.Schema<TPost>(
 	{
-		author: { type: AuthorSchema, ref: 'User', required: true },
+		author: {
+			type: mongoose.Schema.Types.ObjectId,
+			ref: 'users',
+			required: true,
+		},
 		title: { type: String, required: true },
 		content: { type: String, required: true },
 		media: { type: [MediaSchema], default: [] },
-		likes: { type: [String], default: [] },
-		comments: { type: [CommentSchema], default: [] },
+		likes: {
+			type: [
+				{
+					type: mongoose.Schema.Types.ObjectId,
+					ref: 'users',
+				},
+			],
+			default: [],
+		},
+		comments: {
+			type: [
+				{
+					author: {
+						type: mongoose.Types.ObjectId,
+						ref: 'users',
+						required: true,
+					},
+					content: { type: String, required: true },
+				},
+			],
+			default: [],
+		},
 	},
 	{
 		timestamps: true,

@@ -1,11 +1,4 @@
-import { ObjectId } from 'mongoose'
-
-export type TAuthor = {
-	_id: ObjectId
-	name: string
-	username: string
-	avatar?: string
-}
+import mongoose from 'mongoose'
 
 export type TMedia = {
 	url: string
@@ -17,17 +10,17 @@ export type TMedia = {
 }
 
 export type TComment = {
-	author: ObjectId
+	author: mongoose.Types.ObjectId
 	content: string
 }
 
 export type TPost = {
-	author: TAuthor
+	author: mongoose.Types.ObjectId
 	title: string
 	content: string
 	media: TMedia[]
-	likes?: string[]
-	comments?: TComment[]
+	likes: mongoose.Types.ObjectId[]
+	comments: TComment[]
 }
 
 export type TUploadResult = {

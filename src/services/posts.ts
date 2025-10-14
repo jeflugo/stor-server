@@ -1,10 +1,18 @@
 import { Request } from 'express'
 import Post from '../models/posts'
 import { B2Service } from './b2'
-import User from '../models/users'
-import { TPost } from '../types/posts'
+import { TComment, TPost } from '../types/posts'
+import mongoose from 'mongoose'
 
-const getPosts = async () => await Post.find()
+const getPosts = async () => {
+	const posts = await Post.find()
+
+	const fullPosts = await Promise.all(
+		posts.map(async post => await post.populate('author', 'username avatar'))
+	)
+
+	return fullPosts
+}
 
 const getOwnPosts = async (req: any) => {
 	const { username } = req.user!
@@ -37,11 +45,11 @@ const getOwnPosts = async (req: any) => {
 
 const postPost = async (req: any) => {
 	const { title, content } = req.body
-	// const author = req.user!.userId
-	const author = await User.findById(
-		req.user!.userId,
-		'-_id name username avatar'
-	)
+	const author = req.user!.userId
+	// const author = await User.findById(
+	// 	req.user!.userId,
+	// 	'-_id name username avatar'
+	// )
 
 	let media = []
 
@@ -77,7 +85,13 @@ const postPost = async (req: any) => {
 		media,
 	})
 
-	return post
+	const postWithAuthor = await Post.findById(post._id).populate(
+		'author',
+		'username avatar'
+	)
+
+	console.log(postWithAuthor)
+	return postWithAuthor
 }
 
 const getPublicPosts = async (req: Request) => {
@@ -103,17 +117,35 @@ const editPost = async (req: Request) => {
 }
 
 const interactWithPost = async (req: Request) => {
-	const postChanges: Partial<TPost> = req.body
+	const { type, author, content } = req.body
+	const postId = req.params.id
 
-	const updatedPost = await Post.findByIdAndUpdate(req.params.id, postChanges)
+	const post = await Post.findById(postId)
 
-	if (!updatedPost) {
-		throw new Error('Post not found')
-	}
+	if (!post) throw new Error('Post not found')
 
-	return {
-		success: true,
-	}
+	//* FOR LIKES
+	if (type === 'like') return
+
+	//* FOR COMMENTS
+	const authorId = mongoose.Types.ObjectId.createFromHexString(author)
+	const newComment: TComment = { author: authorId, content }
+
+	post.comments.push(newComment)
+
+	await post.save()
+	await post.populate('comments.author', 'username avatar')
+
+	return post
+}
+
+const getPostComments = async (req: Request) => {
+	const post = await Post.findById(req.params.id)
+	if (!post) throw new Error('Post not found')
+
+	await post.populate('comments.author', 'username avatar')
+
+	return post.comments
 }
 
 export default {
@@ -123,4 +155,5 @@ export default {
 	postPost,
 	editPost,
 	interactWithPost,
+	getPostComments,
 }

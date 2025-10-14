@@ -31,6 +31,11 @@ const interactWithPost = tryCatchWrapper(
 	'INTERACT_WITH_POST_ERROR'
 )
 
+const getPostComments = tryCatchWrapper(
+	(req: Request, res: Response) => service.getPostComments(req),
+	'GET_POST_COMMENTS_ERROR'
+)
+
 export {
 	getPosts,
 	getOwnPosts,
@@ -38,4 +43,5 @@ export {
 	postPost,
 	editPost,
 	interactWithPost,
+	getPostComments,
 }
