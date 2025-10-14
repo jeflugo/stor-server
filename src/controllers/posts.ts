@@ -21,4 +21,21 @@ const getPublicPosts = tryCatchWrapper(
 	'GET_PUBLIC_POSTS_ERROR'
 )
 
-export { getPosts, getOwnPosts, getPublicPosts, postPost }
+const editPost = tryCatchWrapper(
+	(req: Request, res: Response) => service.editPost(req),
+	'EDIT_POST_ERROR'
+)
+
+const interactWithPost = tryCatchWrapper(
+	(req: Request, res: Response) => service.interactWithPost(req),
+	'INTERACT_WITH_POST_ERROR'
+)
+
+export {
+	getPosts,
+	getOwnPosts,
+	getPublicPosts,
+	postPost,
+	editPost,
+	interactWithPost,
+}

@@ -18,7 +18,7 @@ export type TMedia = {
 
 export type TComment = {
 	author: ObjectId
-	text: string
+	content: string
 }
 
 export type TPost = {

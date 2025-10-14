@@ -17,6 +17,11 @@ const MediaSchema = new mongoose.Schema({
 	duration: { type: Number },
 })
 
+const CommentSchema = new mongoose.Schema<TComment>({
+	author: { type: AuthorSchema, ref: 'User', required: true },
+	content: { type: String, required: true },
+})
+
 const PostSchema = new mongoose.Schema<TPost>(
 	{
 		author: { type: AuthorSchema, ref: 'User', required: true },
@@ -24,19 +29,7 @@ const PostSchema = new mongoose.Schema<TPost>(
 		content: { type: String, required: true },
 		media: { type: [MediaSchema], default: [] },
 		likes: { type: [String], default: [] },
-		comments: {
-			type: [
-				{
-					author: {
-						type: mongoose.Types.ObjectId,
-						ref: 'User',
-						required: true,
-					},
-					text: { type: String, required: true },
-				},
-			],
-			default: [] as TComment[],
-		},
+		comments: { type: [CommentSchema], default: [] },
 	},
 	{
 		timestamps: true,
