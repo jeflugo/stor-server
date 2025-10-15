@@ -1,5 +1,5 @@
 import mongoose from 'mongoose'
-import { TUser } from '../types/users'
+import { TUser, TUserComment } from '../types/users'
 import bcrypt from 'bcryptjs'
 
 export type TUserDocument = TUser &
@@ -7,7 +7,21 @@ export type TUserDocument = TUser &
 		comparePassword(candidatePassword: string): Promise<boolean>
 	}
 
-const userSchema = new mongoose.Schema<TUserDocument>(
+const UserCommentSchema = new mongoose.Schema<TUserComment>(
+	{
+		postId: {
+			type: mongoose.Schema.Types.ObjectId,
+			required: true,
+		},
+		content: { type: String, required: true },
+	},
+	{
+		timestamps: true,
+		versionKey: false,
+	}
+)
+
+const UserSchema = new mongoose.Schema<TUserDocument>(
 	{
 		name: {
 			type: String,
@@ -33,6 +47,8 @@ const userSchema = new mongoose.Schema<TUserDocument>(
 		following: { type: [String], default: [] },
 		favs: { type: [String], default: [] },
 		saved: { type: [String], default: [] },
+		likes: { type: [mongoose.Schema.Types.ObjectId], default: [] },
+		comments: { type: [UserCommentSchema], default: [] },
 		payOptions: { type: [String], default: [] },
 	},
 	{
@@ -42,7 +58,7 @@ const userSchema = new mongoose.Schema<TUserDocument>(
 )
 
 // Hash password before saving
-userSchema.pre('save', async function (next) {
+UserSchema.pre('save', async function (next) {
 	if (!this.isModified('password')) return next()
 
 	try {
@@ -55,19 +71,19 @@ userSchema.pre('save', async function (next) {
 })
 
 // Compare password method
-userSchema.methods.comparePassword = async function (
+UserSchema.methods.comparePassword = async function (
 	candidatePassword: string
 ): Promise<boolean> {
 	return bcrypt.compare(candidatePassword, this.password)
 }
 
 // Remove password from JSON output
-userSchema.methods.toJSON = function () {
+UserSchema.methods.toJSON = function () {
 	const user = this.toObject()
 	delete user.password
 	return user
 }
 
-const User = mongoose.model('users', userSchema)
+const User = mongoose.model('User', UserSchema)
 
 export default User
