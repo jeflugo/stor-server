@@ -1,6 +1,7 @@
 import { Router } from 'express'
 import { authenticate } from '../middleware/auth'
 import {
+	deletePost,
 	editPost,
 	getOwnPosts,
 	getPostComments,
@@ -18,6 +19,7 @@ router.get('/', getPosts)
 router.get('/me', authenticate, getOwnPosts)
 router.get('/people/:username', getPublicPosts)
 router.patch('/:id', authenticate, editPost)
+router.delete('/:id', authenticate, deletePost)
 router.patch('/actions/:id', interactWithPost)
 router.get('/comments/:id', getPostComments)
 

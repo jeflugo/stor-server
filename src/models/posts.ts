@@ -1,6 +1,5 @@
 import mongoose from 'mongoose'
-import { TPost } from '../types/posts'
-import type { TComment } from '../types/posts'
+import { TComment, TPost } from '../types/posts'
 
 const MediaSchema = new mongoose.Schema({
 	url: { type: String, required: true },
@@ -11,11 +10,26 @@ const MediaSchema = new mongoose.Schema({
 	duration: { type: Number },
 })
 
+const CommentSchema = new mongoose.Schema<TComment>(
+	{
+		author: {
+			type: mongoose.Schema.Types.ObjectId,
+			ref: 'User',
+			required: true,
+		},
+		content: { type: String, required: true },
+	},
+	{
+		timestamps: true,
+		versionKey: false,
+	}
+)
+
 const PostSchema = new mongoose.Schema<TPost>(
 	{
 		author: {
 			type: mongoose.Schema.Types.ObjectId,
-			ref: 'users',
+			ref: 'User',
 			required: true,
 		},
 		title: { type: String, required: true },
@@ -25,22 +39,13 @@ const PostSchema = new mongoose.Schema<TPost>(
 			type: [
 				{
 					type: mongoose.Schema.Types.ObjectId,
-					ref: 'users',
+					ref: 'User',
 				},
 			],
 			default: [],
 		},
 		comments: {
-			type: [
-				{
-					author: {
-						type: mongoose.Types.ObjectId,
-						ref: 'users',
-						required: true,
-					},
-					content: { type: String, required: true },
-				},
-			],
+			type: [CommentSchema],
 			default: [],
 		},
 	},
@@ -50,6 +55,6 @@ const PostSchema = new mongoose.Schema<TPost>(
 	}
 )
 
-const Post = mongoose.model('posts', PostSchema)
+const Post = mongoose.model('Post', PostSchema)
 
 export default Post

@@ -1,4 +1,10 @@
 import { Request } from 'express'
+import mongoose from 'mongoose'
+
+export type TUserComment = {
+	postId: mongoose.Types.ObjectId
+	content: string
+}
 
 export type TUser = {
 	_id: string
@@ -10,11 +16,13 @@ export type TUser = {
 	avatar?: string
 	cover?: string
 	location?: string
-	followers?: string[]
-	following?: string[]
-	favs?: string[]
-	saved?: string[]
-	payOptions?: string[]
+	followers: string[]
+	following: string[]
+	favs: string[]
+	saved: string[]
+	likes: mongoose.Types.ObjectId[]
+	comments: TUserComment[]
+	payOptions: string[]
 }
 
 export type TAuthRequest = Request & {

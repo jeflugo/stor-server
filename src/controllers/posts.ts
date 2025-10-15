@@ -36,6 +36,11 @@ const getPostComments = tryCatchWrapper(
 	'GET_POST_COMMENTS_ERROR'
 )
 
+const deletePost = tryCatchWrapper(
+	(req: Request, res: Response) => service.deletePost(req),
+	'DELETE_POST_ERROR'
+)
+
 export {
 	getPosts,
 	getOwnPosts,
@@ -44,4 +49,5 @@ export {
 	editPost,
 	interactWithPost,
 	getPostComments,
+	deletePost,
 }
