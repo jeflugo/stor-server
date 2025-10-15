@@ -47,17 +47,8 @@ const loginUser = async (userData: TUser) => {
 	}
 }
 
-const getCurrentUser = async (req: any) => {
-	const userId = req.user?.userId
-	if (!userId) {
-		throw new Error('User not authenticated')
-	}
-	const user = await User.findById(userId).select('-password')
-	if (!user) {
-		throw new Error('User not found')
-	}
-	return user
-}
+const getCurrentUser = async (req: any) =>
+	await User.findById(req.user?.userId).select('-password')
 
 const getPublicUser = async (req: Request) => {
 	const username = req.params.username
