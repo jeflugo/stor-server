@@ -7,20 +7,6 @@ export type TUserDocument = TUser &
 		comparePassword(candidatePassword: string): Promise<boolean>
 	}
 
-const UserCommentSchema = new mongoose.Schema<TUserComment>(
-	{
-		postId: {
-			type: mongoose.Schema.Types.ObjectId,
-			required: true,
-		},
-		content: { type: String, required: true },
-	},
-	{
-		timestamps: true,
-		versionKey: false,
-	}
-)
-
 const UserSchema = new mongoose.Schema<TUserDocument>(
 	{
 		name: {
@@ -42,13 +28,9 @@ const UserSchema = new mongoose.Schema<TUserDocument>(
 		location: { type: String, default: '' },
 		bio: { type: String, default: '' },
 		avatar: { type: String, default: '' },
-		cover: { type: String, default: '' },
 		followers: { type: [String], default: [] },
 		following: { type: [String], default: [] },
-		favs: { type: [String], default: [] },
 		saved: { type: [String], default: [] },
-		likes: { type: [mongoose.Schema.Types.ObjectId], default: [] },
-		comments: { type: [UserCommentSchema], default: [] },
 		payOptions: { type: [String], default: [] },
 	},
 	{

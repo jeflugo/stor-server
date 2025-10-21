@@ -22,4 +22,21 @@ const getPublicUser = tryCatchWrapper(
 	'GET_PUBLIC_USER_ERROR'
 )
 
-export { registerUser, loginUser, getCurrentUser, getPublicUser }
+const deleteUser = tryCatchWrapper(
+	(req: Request, res: Response) => service.deleteUser(req),
+	'DELETE_USER_ERROR'
+)
+
+const editUser = tryCatchWrapper(
+	(req: Request, res: Response) => service.editUser(req),
+	'EDIT_USER_ERROR'
+)
+
+export {
+	registerUser,
+	loginUser,
+	getCurrentUser,
+	getPublicUser,
+	deleteUser,
+	editUser,
+}
