@@ -1,12 +1,15 @@
 import { Router } from 'express'
 import { authenticate } from '../middleware/auth'
 import {
+	deleteComment,
 	deletePost,
+	editComment,
 	editPost,
 	getOwnPosts,
 	getPostComments,
 	getPosts,
 	getPublicPosts,
+	interactWithComment,
 	interactWithPost,
 	postPost,
 } from '../controllers/posts'
@@ -21,6 +24,11 @@ router.get('/people/:username', getPublicPosts)
 router.patch('/:id', authenticate, editPost)
 router.delete('/:id', authenticate, deletePost)
 router.patch('/actions/:id', interactWithPost)
+
+// Comments
 router.get('/comments/:id', getPostComments)
+router.patch('/comment-actions/:id', interactWithComment)
+router.patch('/comments/:id', authenticate, editComment)
+router.put('/comments/:id', authenticate, deleteComment)
 
 export { router }

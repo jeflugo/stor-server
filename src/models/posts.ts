@@ -10,14 +10,31 @@ const MediaSchema = new mongoose.Schema({
 	duration: { type: Number },
 })
 
+const AuthorSchema = new mongoose.Schema({
+	_id: {
+		type: mongoose.Schema.Types.ObjectId,
+		reuired: true,
+	},
+	username: {
+		type: String,
+		reuired: true,
+	},
+	avatar: {
+		type: String,
+	},
+})
+
 const CommentSchema = new mongoose.Schema<TComment>(
 	{
 		author: {
-			type: mongoose.Schema.Types.ObjectId,
-			ref: 'User',
+			type: AuthorSchema,
 			required: true,
 		},
 		content: { type: String, required: true },
+		likes: {
+			type: [AuthorSchema],
+			default: [],
+		},
 	},
 	{
 		timestamps: true,
@@ -28,20 +45,14 @@ const CommentSchema = new mongoose.Schema<TComment>(
 const PostSchema = new mongoose.Schema<TPost>(
 	{
 		author: {
-			type: mongoose.Schema.Types.ObjectId,
-			ref: 'User',
+			type: AuthorSchema,
 			required: true,
 		},
 		title: { type: String, required: true },
 		content: { type: String, required: true },
 		media: { type: [MediaSchema], default: [] },
 		likes: {
-			type: [
-				{
-					type: mongoose.Schema.Types.ObjectId,
-					ref: 'User',
-				},
-			],
+			type: [AuthorSchema],
 			default: [],
 		},
 		comments: {

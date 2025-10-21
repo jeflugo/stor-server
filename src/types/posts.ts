@@ -9,17 +9,25 @@ export type TMedia = {
 	duration?: number // For videos
 }
 
+export type TAuthor = {
+	_id: mongoose.Types.ObjectId
+	username: string
+	avatar?: string
+}
+
 export type TComment = {
-	author: mongoose.Types.ObjectId
+	_id?: mongoose.Types.ObjectId
+	author: TAuthor
 	content: string
+	likes?: TAuthor[]
 }
 
 export type TPost = {
-	author: mongoose.Types.ObjectId
+	author: TAuthor
 	title: string
 	content: string
 	media: TMedia[]
-	likes: mongoose.Types.ObjectId[]
+	likes: TAuthor[]
 	comments: TComment[]
 }
 

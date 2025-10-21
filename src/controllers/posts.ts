@@ -41,6 +41,21 @@ const deletePost = tryCatchWrapper(
 	'DELETE_POST_ERROR'
 )
 
+const interactWithComment = tryCatchWrapper(
+	(req: Request, res: Response) => service.interactWithComment(req),
+	'INTERACT_WITH_COMMENT_ERROR'
+)
+
+const editComment = tryCatchWrapper(
+	(req: Request, res: Response) => service.editComment(req),
+	'EDIT_COMMENT_ERROR'
+)
+
+const deleteComment = tryCatchWrapper(
+	(req: Request, res: Response) => service.deleteComment(req),
+	'DELETE_COMMENT_ERROR'
+)
+
 export {
 	getPosts,
 	getOwnPosts,
@@ -50,4 +65,7 @@ export {
 	interactWithPost,
 	getPostComments,
 	deletePost,
+	interactWithComment,
+	editComment,
+	deleteComment,
 }
