@@ -32,6 +32,11 @@ const editUser = tryCatchWrapper(
 	'EDIT_USER_ERROR'
 )
 
+const followAction = tryCatchWrapper(
+	(req: Request, res: Response) => service.followAction(req),
+	'FOLLOW_ACTION_ERROR'
+)
+
 export {
 	registerUser,
 	loginUser,
@@ -39,4 +44,5 @@ export {
 	getPublicUser,
 	deleteUser,
 	editUser,
+	followAction,
 }

@@ -1,4 +1,4 @@
-import { TUser } from '../types/users'
+import { TAuthRequest, TUser } from '../types/users'
 import jwt from 'jsonwebtoken'
 import { Request } from 'express'
 import User from '../models/users'
@@ -48,7 +48,7 @@ const loginUser = async (userData: TUser) => {
 	}
 }
 
-const getCurrentUser = async (req: any) =>
+const getCurrentUser = async (req: TAuthRequest) =>
 	await User.findById(req.user?.userId).select('-password')
 
 const getPublicUser = async (req: Request) => {
@@ -60,7 +60,7 @@ const getPublicUser = async (req: Request) => {
 	return user
 }
 
-const deleteUser = async (req: any) => {
+const deleteUser = async (req: TAuthRequest) => {
 	const userId = req.params.id
 	const user = await User.findByIdAndDelete(userId)
 	if (!user) throw new Error('User not found')
@@ -69,13 +69,51 @@ const deleteUser = async (req: any) => {
 	return true
 }
 
-const editUser = async (req: any) => {
+const editUser = async (req: TAuthRequest) => {
 	const userId = req.params.id
 	const userInfo: Partial<TUser> = req.body
 	const user = await User.findByIdAndUpdate(userId, userInfo)
 	if (!user) throw new Error('User not found')
 
 	return true
+}
+
+const followAction = async (req: TAuthRequest) => {
+	const userToFollowId = req.params.id
+	const { userId } = req.user!
+	const { isFollowing } = req.body
+
+	const user = await User.findById(userId)
+	if (!user) throw new Error('User not found.')
+	const userToFollow = await User.findById(userToFollowId)
+	if (!userToFollow) throw new Error('User to follow not found.')
+
+	if (!isFollowing) {
+		user.following.push({
+			_id: userToFollow._id,
+			username: userToFollow.username,
+			avatar: userToFollow.avatar,
+		})
+		userToFollow.followers.push({
+			_id: user._id,
+			username: user.username,
+			avatar: user.avatar,
+		})
+	} else {
+		const userTofollowIndex = user.following.findIndex(
+			following => following._id.toString() === userToFollow._id.toString()
+		)
+		user.following.splice(userTofollowIndex, 1)
+
+		const userIndex = userToFollow.followers.findIndex(
+			following => following._id.toString() === user._id.toString()
+		)
+		userToFollow.followers.splice(userIndex, 1)
+	}
+
+	await user.save()
+	await userToFollow.save()
+	return user
 }
 
 export default {
@@ -85,4 +123,5 @@ export default {
 	getPublicUser,
 	deleteUser,
 	editUser,
+	followAction,
 }

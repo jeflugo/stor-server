@@ -6,6 +6,12 @@ export type TUserComment = {
 	content: string
 }
 
+export type TAuthor = {
+	_id: mongoose.Types.ObjectId
+	username: string
+	avatar?: string
+}
+
 export type TUser = {
 	_id: mongoose.Types.ObjectId
 	name: string
@@ -15,8 +21,8 @@ export type TUser = {
 	bio?: string
 	avatar?: string
 	location?: string
-	followers: string[]
-	following: string[]
+	followers: TAuthor[]
+	following: TAuthor[]
 	saved: string[]
 	payOptions: string[]
 }

@@ -1,11 +1,25 @@
 import mongoose from 'mongoose'
-import { TUser, TUserComment } from '../types/users'
+import { TUser } from '../types/users'
 import bcrypt from 'bcryptjs'
 
 export type TUserDocument = TUser &
 	mongoose.Document & {
 		comparePassword(candidatePassword: string): Promise<boolean>
 	}
+
+const AuthorSchema = new mongoose.Schema({
+	_id: {
+		type: mongoose.Schema.Types.ObjectId,
+		reuired: true,
+	},
+	username: {
+		type: String,
+		reuired: true,
+	},
+	avatar: {
+		type: String,
+	},
+})
 
 const UserSchema = new mongoose.Schema<TUserDocument>(
 	{
@@ -28,8 +42,8 @@ const UserSchema = new mongoose.Schema<TUserDocument>(
 		location: { type: String, default: '' },
 		bio: { type: String, default: '' },
 		avatar: { type: String, default: '' },
-		followers: { type: [String], default: [] },
-		following: { type: [String], default: [] },
+		followers: { type: [AuthorSchema], default: [] },
+		following: { type: [AuthorSchema], default: [] },
 		saved: { type: [String], default: [] },
 		payOptions: { type: [String], default: [] },
 	},
