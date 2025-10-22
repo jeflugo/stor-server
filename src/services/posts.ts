@@ -3,9 +3,14 @@ import Post from '../models/posts'
 import { B2Service } from './b2'
 import { TAuthor, TPost } from '../types/posts'
 import User from '../models/users'
-import mongoose, { mongo } from 'mongoose'
 
 const getPosts = async () => await Post.find()
+
+const getSinglePost = async (req: Request) => {
+	const { id } = req.params
+	const post = await Post.findById(id)
+	return post
+}
 
 const getPostComments = async (req: Request) => {
 	const post = await Post.findById(req.params.id)
@@ -213,6 +218,7 @@ const deleteComment = async (req: Request) => {
 
 export default {
 	getPosts,
+	getSinglePost,
 	getOwnPosts,
 	getPublicPosts,
 	interactWithPost,

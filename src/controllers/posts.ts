@@ -7,6 +7,11 @@ const getPosts = tryCatchWrapper(
 	'GET_POSTS_ERROR'
 )
 
+const getSinglePost = tryCatchWrapper(
+	(req: Request, res: Response) => service.getSinglePost(req),
+	'GET_SINGLE_POST_ERROR'
+)
+
 const getOwnPosts = tryCatchWrapper(
 	(req: Request, res: Response) => service.getOwnPosts(req),
 	'GET_OWN_POSTS_ERROR'
@@ -58,6 +63,7 @@ const deleteComment = tryCatchWrapper(
 
 export {
 	getPosts,
+	getSinglePost,
 	getOwnPosts,
 	getPublicPosts,
 	postPost,
