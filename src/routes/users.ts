@@ -7,6 +7,7 @@ import {
 	deleteUser,
 	editUser,
 	followAction,
+	notifyUser,
 } from '../controllers/users'
 import { authenticate } from '../middleware/auth'
 
@@ -22,5 +23,6 @@ router.get('/people/:username', getPublicUser)
 router.delete('/:id', authenticate, deleteUser)
 router.patch('/:id', authenticate, editUser)
 router.patch('/follow-action/:id', authenticate, followAction)
+router.patch('/notify-user/:id', authenticate, notifyUser)
 
 export { router }

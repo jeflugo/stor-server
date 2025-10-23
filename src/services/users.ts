@@ -1,4 +1,4 @@
-import { TAuthRequest, TUser } from '../types/users'
+import { TAuthor, TAuthRequest, TNotification, TUser } from '../types/users'
 import jwt from 'jsonwebtoken'
 import { Request } from 'express'
 import User from '../models/users'
@@ -116,6 +116,37 @@ const followAction = async (req: TAuthRequest) => {
 	return user
 }
 
+const notifyUser = async (req: TAuthRequest) => {
+	const newNotification = req.body as TNotification
+
+	const userToNotify = await User.findById(req.params.id)
+	if (!userToNotify) throw new Error('User to notify not found')
+
+	switch (newNotification.type) {
+		case 'like':
+			userToNotify.notifications.push(newNotification)
+			break
+		case 'deleteLike':
+			const notificationIndex = userToNotify.notifications.findIndex(
+				noti =>
+					noti.contentId === newNotification.contentId &&
+					noti.author._id.toString() === newNotification.author._id.toString()
+			)
+			userToNotify.notifications.splice(notificationIndex, 1)
+			break
+		case 'comment':
+			break
+		case 'deleteComment':
+			break
+
+		default:
+			break
+	}
+	await userToNotify.save()
+
+	return true
+}
+
 export default {
 	registerUser,
 	loginUser,
@@ -124,4 +155,5 @@ export default {
 	deleteUser,
 	editUser,
 	followAction,
+	notifyUser,
 }

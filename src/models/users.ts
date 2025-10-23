@@ -1,5 +1,5 @@
 import mongoose from 'mongoose'
-import { TUser } from '../types/users'
+import { TNotification, TUser } from '../types/users'
 import bcrypt from 'bcryptjs'
 
 export type TUserDocument = TUser &
@@ -20,6 +20,30 @@ const AuthorSchema = new mongoose.Schema({
 		type: String,
 	},
 })
+
+const NotificationSchema = new mongoose.Schema<TNotification>(
+	{
+		author: {
+			type: AuthorSchema,
+			required: true,
+		},
+		type: {
+			type: String,
+			required: true,
+		},
+		contentId: {
+			type: mongoose.Schema.Types.ObjectId,
+			required: true,
+		},
+		content: {
+			type: String,
+		},
+	},
+	{
+		timestamps: true,
+		versionKey: false,
+	}
+)
 
 const UserSchema = new mongoose.Schema<TUserDocument>(
 	{
@@ -44,6 +68,7 @@ const UserSchema = new mongoose.Schema<TUserDocument>(
 		avatar: { type: String, default: '' },
 		followers: { type: [AuthorSchema], default: [] },
 		following: { type: [AuthorSchema], default: [] },
+		notifications: { type: [NotificationSchema], default: [] },
 		saved: { type: [String], default: [] },
 		payOptions: { type: [String], default: [] },
 	},

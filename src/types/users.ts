@@ -12,6 +12,13 @@ export type TAuthor = {
 	avatar?: string
 }
 
+export type TNotification = {
+	author: TAuthor
+	type: string
+	contentId: mongoose.Types.ObjectId
+	content?: string
+}
+
 export type TUser = {
 	_id: mongoose.Types.ObjectId
 	name: string
@@ -23,6 +30,7 @@ export type TUser = {
 	location?: string
 	followers: TAuthor[]
 	following: TAuthor[]
+	notifications: TNotification[]
 	saved: string[]
 	payOptions: string[]
 }

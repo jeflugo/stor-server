@@ -37,6 +37,11 @@ const followAction = tryCatchWrapper(
 	'FOLLOW_ACTION_ERROR'
 )
 
+const notifyUser = tryCatchWrapper(
+	(req: Request, res: Response) => service.notifyUser(req),
+	'NOTIFY_USER_ERROR'
+)
+
 export {
 	registerUser,
 	loginUser,
@@ -45,4 +50,5 @@ export {
 	deleteUser,
 	editUser,
 	followAction,
+	notifyUser,
 }
