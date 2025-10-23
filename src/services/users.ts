@@ -129,7 +129,7 @@ const notifyUser = async (req: TAuthRequest) => {
 		case 'deleteLike':
 			const notificationIndex = userToNotify.notifications.findIndex(
 				noti =>
-					noti.contentId === newNotification.contentId &&
+					noti.postId === newNotification.postId &&
 					noti.author._id.toString() === newNotification.author._id.toString()
 			)
 			userToNotify.notifications.splice(notificationIndex, 1)

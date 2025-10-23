@@ -31,9 +31,15 @@ const NotificationSchema = new mongoose.Schema<TNotification>(
 			type: String,
 			required: true,
 		},
-		contentId: {
+		postId: {
 			type: mongoose.Schema.Types.ObjectId,
 			required: true,
+		},
+		postTitle: {
+			type: String,
+		},
+		commentId: {
+			type: mongoose.Schema.Types.ObjectId,
 		},
 		content: {
 			type: String,

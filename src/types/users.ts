@@ -13,9 +13,12 @@ export type TAuthor = {
 }
 
 export type TNotification = {
+	_id: mongoose.Types.ObjectId
 	author: TAuthor
 	type: string
-	contentId: mongoose.Types.ObjectId
+	postId: mongoose.Types.ObjectId
+	postTitle?: string
+	commentId?: mongoose.Types.ObjectId
 	content?: string
 }
 
