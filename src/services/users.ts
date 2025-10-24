@@ -126,6 +126,7 @@ const notifyUser = async (req: TAuthRequest) => {
 	switch (newNotification.type) {
 		case 'like':
 		case 'comment':
+		case 'likeComment':
 			userToNotify.notifications.push(newNotification)
 			break
 		case 'deleteLike':
@@ -150,7 +151,18 @@ const notifyUser = async (req: TAuthRequest) => {
 			)
 			userToNotify.notifications.splice(notificationIndex, 1)
 			break
-
+		case 'deleteLikeComment':
+			notificationIndex = userToNotify.notifications.findIndex(
+				noti =>
+					noti.postId.toString() === newNotification.postId.toString() &&
+					noti.author._id.toString() ===
+						newNotification.author._id.toString() &&
+					noti.commentId?.toString() ===
+						newNotification.commentId?.toString() &&
+					noti.type === 'likeComment'
+			)
+			userToNotify.notifications.splice(notificationIndex, 1)
+			break
 		default:
 			break
 	}
