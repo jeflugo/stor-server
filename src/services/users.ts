@@ -122,21 +122,33 @@ const notifyUser = async (req: TAuthRequest) => {
 	const userToNotify = await User.findById(req.params.id)
 	if (!userToNotify) throw new Error('User to notify not found')
 
+	let notificationIndex: number
 	switch (newNotification.type) {
 		case 'like':
+		case 'comment':
 			userToNotify.notifications.push(newNotification)
 			break
 		case 'deleteLike':
-			const notificationIndex = userToNotify.notifications.findIndex(
+			notificationIndex = userToNotify.notifications.findIndex(
 				noti =>
-					noti.postId === newNotification.postId &&
-					noti.author._id.toString() === newNotification.author._id.toString()
+					noti.postId.toString() === newNotification.postId.toString() &&
+					noti.author._id.toString() ===
+						newNotification.author._id.toString() &&
+					noti.type === 'like'
 			)
 			userToNotify.notifications.splice(notificationIndex, 1)
 			break
-		case 'comment':
-			break
 		case 'deleteComment':
+			notificationIndex = userToNotify.notifications.findIndex(
+				noti =>
+					noti.postId.toString() === newNotification.postId.toString() &&
+					noti.author._id.toString() ===
+						newNotification.author._id.toString() &&
+					noti.commentId?.toString() ===
+						newNotification.commentId?.toString() &&
+					noti.type === 'comment'
+			)
+			userToNotify.notifications.splice(notificationIndex, 1)
 			break
 
 		default:
